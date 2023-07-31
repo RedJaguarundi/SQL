@@ -1,0 +1,57 @@
+--Create a car dealership database
+
+CREATE TABLE Cars (id INTEGER PRIMARY KEY, make TEXT, model TEXT, year INTEGER, price INTEGER, quantity INTEGER);
+INSERT INTO cars VALUES ( 1, "Toyota", "Camry", 2009, 6000, 3);
+INSERT INTO cars VALUES (2, "Subaru", "Outback", 2010, 8000, 1);
+INSERT INTO cars VALUES (3, "Toyota", "Tundra", 2010, 13000, 5);
+INSERT INTO cars VALUES (4, "Hyundai", "Sonata", 2022, 24000, 17);
+INSERT INTO cars VALUES (5, "Toyota", "RAV4", 2001, 2000, 1);
+INSERT INTO cars VALUES (6, "GMC", "Sierra", 2001, 10000, 13);
+INSERT INTO cars VALUES (7, "Chevrolet", "Suburban", 1994, 8000, 1);
+INSERT INTO cars VALUES (8, "Chevrolet", "Camaro", 1970, 20000, 1);
+INSERT INTO cars VALUES (9, "Ford", "Mustang", 1994, 500, 1);
+INSERT INTO cars VALUES (10, "Ford", "Mustang", 1972, 7000, 2);
+INSERT INTO cars VALUES (11, "Chevrolet", "Corvair", 1964, 2000, 1);
+INSERT INTO cars VALUES (12, "Pontiac", "GTO", 1969, 50000, 1);
+INSERT INTO cars VALUES (13, "Mitsubishi", "Eclipse", 2002, 4000, 2);
+INSERT INTO cars VALUES (14, "Mercedes", "G Wagon", 2023, 180000, 5);
+INSERT INTO cars VALUES (15, "Subaru", "Forester", 2021, 50000, 12);
+
+--Display the database ordered by price
+SELECT * FROM cars ORDER BY price;
+
+--Display how many cars from each year you have
+SELECT year, SUM(quantity) FROM cars GROUP BY year;
+
+--What is the avg price of a Chevrolet?
+SELECT AVG(price) FROM cars WHERE make="Chevrolet";
+
+--What are the cheapest 6 cars starting with the lowest?
+SELECT make, model, price FROM cars ORDER BY price asc LIMIT 6;
+
+--What are the 3 most expensive cars from the year 2000 or earlier?
+SELECT make, model, price, year FROM cars WHERE year<=2000 ORDER BY price desc LIMIT 3;
+
+--Display all the cars from the database 2000 or newer by make
+SELECT make, model, price, year FROM cars WHERE year>=2000 ORDER BY make;
+
+--What is the most expensive car you only have one of?
+SELECT MAX(price) FROM cars WHERE quantity=1;
+
+--What is your cheapest Toyota model?
+SELECT MIN(price), model FROM cars WHERE make="Toyota";
+
+--What is the newest Subaru you have and how many do you have?
+SELECT MAX(year), model, quantity FROM cars WHERE make="Subaru";
+
+--What car do you have the most of?
+SELECT MAX(quantity), make, model FROM cars;
+
+--What is the newest Mustang you have?
+SELECT MAX(year) FROM cars WHERE model="Mustang";
+
+--How many cars do you have total?
+SELECT SUM(quantity) from cars;
+
+--Show all the cars you have that cost $10k or more
+Select * from cars where price>=10000
