@@ -1,0 +1,71 @@
+SELECT item_name, price
+FROM superstore 
+ORDER BY price desc;
+
+SELECT MAX(price) 
+FROM superstore
+WHERE category='Kitchen Supplies';
+
+SELECT AVG(stock_quantity)
+FROM superstore 
+WHERE category='Furnishings';
+
+SELECT * 
+FROM superstore
+ORDER BY category asc;
+
+SELECT item_name, average_rating
+FROM superstore 
+WHERE average_rating>=4.5
+ORDER BY average_rating desc;
+
+SELECT COUNT(*) 
+FROM superstore;
+
+SELECT item_name, stock_quantity
+FROM superstore
+WHERE item_name='Slow Cooker'
+OR item_name='Cutlery Set';
+
+SELECT category, SUM(stock_quantity) AS cat_stock
+FROM superstore
+GROUP BY category;
+
+
+SELECT MAX(stock_quantity), item_name
+FROM superstore;
+
+SELECT MIN(price), item_name
+FROM superstore;
+
+SELECT *
+FROM superstore
+ORDER BY price desc LIMIT 3;
+
+SELECT COUNT(item_name) AS item_per_cat, category
+FROM superstore
+GROUP BY category;
+
+SELECT *
+FROM superstore 
+WHERE item_name LIKE '%set%'
+ORDER BY average_rating desc;
+
+SELECT * 
+FROM superstore
+WHERE item_name LIKE '%set%' AND
+ category='Kitchen Supplies'
+ORDER BY price;
+
+SELECT COUNT(*)
+FROM superstore 
+WHERE category='Kitchen Supplies' OR
+ category='Appliances';
+ 
+SELECT MIN(price) AS cheap_item_cat, category, item_name
+FROM superstore
+GROUP BY category;
+
+SELECT MAX(average_rating) AS top_rated_in_cat, item_name, category
+FROM superstore
+GROUP BY category;
