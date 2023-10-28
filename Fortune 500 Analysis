@@ -1,0 +1,64 @@
+#Categorize companies by amount of employees
+SELECT COUNT(*),
+CASE WHEN employees>=1000000 THEN "Very Large Company"
+WHEN employees>=100000 THEN "Large Company"
+WHEN employees>=50000 THEN "Medium Company"
+ELSE "Small Company" END AS company_size
+FROM fortune_companies
+GROUP BY company_size;
+
+#Show the average revenue by industry of industries averaging over 250B 
+SELECT industry, AVG(revenue) AS revenue_by_industry 
+FROM fortune_companies
+GROUP BY industry
+HAVING revenue_by_industry<250;
+
+#Show the industries that have over 80,000 employees that offer healthcare
+SELECT industry, SUM(employees) AS total_employees_by_industry, healthcare_benefits
+FROM fortune_companies
+GROUP BY industry
+HAVING total_employees_by_industry>=80000 AND healthcare_benefits=1;
+
+#What is the average amount of maternity leave?
+SELECT AVG(maternity_leave_weeks) AS avg_mat_leave
+FROM fortune_companies;
+
+#What is they highest amount of maternity leave offered by industry?
+SELECT industry, MAX(maternity_leave_weeks) AS highest_amt_mat_leave
+FROM fortune_companies
+GROUP BY industry;
+
+#Show the weeks of maternity leave by company starting with the most weeks
+SELECT company_name, industry, maternity_leave_weeks 
+FROM fortune_companies ORDER BY maternity_leave_weeks DESC;
+
+#Show the companies that do not offer healthcare and the average employee tenure of each company
+SELECT company_name, avg_employee_tenure, healthcare_benefits
+FROM fortune_companies 
+WHERE healthcare_benefits=0
+ORDER BY avg_employee_tenure;
+
+#Show the average employee tenure of companies that DO NOT offer healthcare
+SELECT AVG(avg_employee_tenure)
+FROM fortune_companies
+WHERE healthcare_benefits=0;
+
+#Show the average employee tenure of companies that DO offer healthcare
+SELECT AVG(avg_employee_tenure)
+FROM fortune_companies
+WHERE healthcare_benefits=1;
+
+#Which company in the Telecommunications Industry has the most employees?
+SELECT company_name, MAX(employees) 
+FROM fortune_companies
+WHERE industry="Telecommunications";
+
+#Show the companies in the Telecommunications Industry that offer healthcare and their revenues
+SELECT company_name, industry, revenue, healthcare_benefits 
+FROM fortune_companies
+WHERE healthcare_benefits=1 AND industry="Telecommunications"
+ORDER BY revenue DESC;
+
+
+
+
