@@ -1,4 +1,4 @@
-/*How many orders were placed in January?/*
+/*How many orders were placed in January?*/
 
 SELECT COUNT(orderID)
 FROM BIT_DB.JanSales
@@ -28,7 +28,7 @@ WHERE order_id IN(SELECT orderID from FebSales
 WHERE length(orderID)=6
 AND orderID <> 'OrderID');
 
-/*Which product was th cheapest one sold in January and what was the price? 3 ways*/
+/*Which product was the cheapest one sold in January and what was the price? 3 ways*/
 
 SELECT distinct product, price
 FROM JanSales
@@ -65,3 +65,48 @@ ON c.order_ID=fs.orderID
 WHERE quantity >2
 AND length(orderid) = 6
 AND orderid <> 'Order ID';
+
+/*Which locations in New York received at least 3 orders in January, and how many orders did they each receive? */
+
+SELECT distinct location, COUNT(orderID) as countorder
+FROM JanSales
+WHERE location LIKE '%NY%'
+AND length(orderid) = 6 
+AND orderid <> 'Order ID'
+GROUP BY location
+HAVING countorder >=3;
+
+/*How many of each type of headphone were sold in February?*/
+
+SELECT product, SUM(quantity)
+FROM FebSales 
+WHERE product LIKE '%headphone%'
+GROUP BY product;
+
+/*What was the average amount spent per account in February?*/
+
+SELECT SUM(quantity*price)/COUNT(acctnum)
+FROM FebSales
+LEFT JOIN customers
+ON FebSales.OrderID=customers.order_ID
+WHERE length(orderID) = 6
+AND orderID <> 'Order ID';
+
+/*What was the average quantity of products purchased per account in February?*/
+
+SELECT SUM(quantity)/COUNT(acctnum)
+FROM FebSales
+LEFT JOIN customers
+ON FebSales.orderID=customers.order_id
+WHERE length(orderid) = 6 
+AND orderid <> 'Order ID';
+
+/*Which product brought in the most revenue in January and how much revenue did it bring in total?*/
+
+SELECT product, SUM(quantity*price) as revenue_per_product
+FROM JanSales
+GROUP BY product
+ORDER BY revenue_per_product desc limit 1;
+
+
+
