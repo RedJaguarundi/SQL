@@ -1,0 +1,107 @@
+/*You are collaborating with a media company that wants to do an article on which artists are hot right now, 
+and which ones are not so popular. Categorize which artists are "hot", "lukewarm" or "not hot" at the moment 
+based on the average popularity of their songs on the charts right now.*/
+
+WITH avg_pop_by_artist_cte AS (
+    SELECT artist_name, AVG(popularity) as 'avpop'
+    FROM SpotifyData
+    GROUP BY artist_name ) 
+    
+        SELECT artist_name, avpop,
+            CASE WHEN avpop >= 90 THEN 'Hot'
+            WHEN avpop >= 80 THEN 'Lukewarm'
+            ELSE 'Not Hot'
+            END AS hot_or_not
+            FROM avg_pop_by_artist_cte
+            ORDER BY avpop:
+            
+/*Using the data from before, count how many artists are in each category*/
+            
+  WITH avg_pop_by_artist_cte AS (
+    SELECT artist_name, AVG(popularity) as 'avpop'
+    FROM SpotifyData
+    GROUP BY artist_name ) 
+              
+        SELECT COUNT(*), 
+            CASE WHEN avpop >= 90 THEN 'Hot'
+            WHEN avpop >= 80 THEN 'Lukewarm'
+            ELSE 'Not Hot'
+            END AS hot_or_not
+            FROM avg_pop_by_artist_cte
+            GROUP BY hot_or_not:
+
+/*You are choosing a setlist for a music festival. You want to include 10 energetic songs. Unfortunately, The Weeknd cancelled last minute. List the top 10 most energetic tracks but exclude tracks by The Weeknd.*/
+
+SELECT track_name, artist_name, energy
+FROM SpotifyData
+WHERE NOT artist_name = 'The Weeknd'
+ORDER BY energy DESC
+LIMIT 10;
+
+/*Since the mood is so important for a music festival, you want to make sure you include the most popular songs that everyone can sing along to. 
+Of course, while the sun is setting, you want some chill songs for a change. 
+But as soon as the sun is down, you want to dance the night away. Categorize
+songs that fit these three moods the most.*/
+
+SELECT artist_name, track_name, popularity, danceability, acousticness,
+CASE WHEN popularity >= 95 THEN "Big Hit Mood"
+WHEN danceability >= .85 THEN "Dance Mood"
+WHEN acousticness >= .7 THEN "Chill Mood"
+END AS Mood
+FROM SpotifyData
+WHERE Mood IS NOT NULL
+ORDER BY Mood;
+
+    
+/*The most popular time signature is 4, but are there any songs in the dataset that are not in this time signature?*/
+SELECT track_name 
+FROM SpotifyData
+WHERE NOT time_signature = 4;
+
+SELECT track_name
+FROM SpotifyData
+WHERE time_signature <> 4;
+
+/*Are the songs in time signature 4 longer on average than those in time signature 3?*/
+
+SELECT AVG(duration_ms)
+FROM SpotifyData
+WHERE time_signature = 4;
+
+SELECT AVG(duration_ms)
+FROM SpotifyData
+WHERE time_signature = 3;
+        /*Yes, the average song length of the songs in 4 is in fact a bit longer*/
+
+/*What is Olivia Rodgrigo's most acoustic song and what is it's acousticness?*/
+
+SELECT track_name, MAX(acousticness) 
+FROM (SELECT track_name, acousticness
+FROM SpotifyData
+WHERE artist_name = 'Olivia Rodrigo');
+
+/*Your friend keeps hearing this song about light, but cannot remember who sings it or what the song is called. 
+Help them find the song and singer.*/
+SELECT track_name, artist_name
+FROM SpotifyData
+WHERE track_name LIKE '%light%';
+
+/*You are planning a party for your aunt who only knows Spanish. She wants mostly songs by Spanish speaking artists on her playlist, 
+but she does love Justin Bieber. Make her a playlist. Make sure the tracks get more danceable as the night goes on!*/
+
+SELECT track_name, artist_name, danceability
+FROM SpotifyData
+WHERE artist_name IN('Bad Bunny', 'Rauw Alejandro', 'Kali Uchis', 'Myke Towers', 'Los Legendarios', 'J Balvin', 'Sebastian Yatra', 'Justin Bieber')
+ORDER BY danceability ASC;
+
+/*Which artist has the least danceable song and what is the song?*/
+select artist_name, track_name, MIN(danceability)
+from SpotifyData;
+
+/*Which artist has the lowest average danceability?*/
+
+SELECT artist_name, MIN(av_dance)
+FROM
+    (SELECT artist_name, AVG(danceability) as av_dance
+    FROM SpotifyData
+    GROUP BY artist_name);
