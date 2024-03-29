@@ -1,4 +1,7 @@
 /*DATA USED IN THIS PROJECT IS FROM https://www.kaggle.com/datasets/equinxx/spotify-top-50-songs-in-2021*/
+# For this project, I downloaded Spotify data from Kaggle.
+# Then I created a table to insert Spotify data into.
+# Finally, I performed analytics on the data using SQL. 
 
 /*You are collaborating with a media company that wants to do an article on which artists are hot right now, 
 and which ones are not so popular. Categorize which artists are "hot", "lukewarm" or "not hot" at the moment 
