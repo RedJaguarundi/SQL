@@ -81,3 +81,42 @@ FROM cars;
 SELECT * 
 FROM cars 
 WHERE price>=10000;
+
+-- Display the car makes that have an average price of 20,000 or more
+SELECT avg(price) as av_price, make
+FROM cars 
+group by make
+having av_price >=20000;
+
+--The car lot wants to advertise cars marked under $22,000. You need to catergorize the cars into promotional categories, then order them by price, 
+so that you can advertise the best deals most aggressively. Some of these cars, like the legendary Pontiac GTO, show up as NULL because the price 
+is too high to be considered a deal; so I filtered for NULLs
+SELECT make, model, price,
+CASE WHEN price <=6000 THEN "Super Sweet Steal of a Deal"
+	WHEN price <=15000 THEN "Super Sweet Deal"
+    WHEN price <=22000 THEN "Sweet Deal"
+    END AS promotional_category
+    FROM cars
+    where promotional_category is not null
+    GROUP BY price
+    ORDER BY price;
+
+--What is the value of the lot (using price)?
+select SUM(price)
+from cars;
+
+--You are having a sale on Chevys only for 20% their original price. Show the model, original price, and markdown price.
+select model, price as original_price, price*.8 as markdown_price
+from cars
+where make = "Chevrolet"
+
+--You are going to bring some cars to the site of a classic car show and hopefully sell some of them. The cutoff year is now 2005! But since 
+there is limited space and you want to make a good profit, you only want to bring cars priced over 15,000. Select the "old" cars in this range.
+with old_cars as
+	(select make, model, year, price
+     from cars
+     where year <=2005)
+     
+     select make, model, price
+     from old_cars
+     where price >=15000
