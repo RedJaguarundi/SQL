@@ -1,3 +1,6 @@
+# In this project, I created a "Car Dealership" database from scratch, with fictional data. I then used SQL to query the table to 
+find out useful information about my small car lot!
+
 --Create a car dealership database
 
 CREATE TABLE Cars (id INTEGER PRIMARY KEY, make TEXT, model TEXT, year INTEGER, price INTEGER, quantity INTEGER);
