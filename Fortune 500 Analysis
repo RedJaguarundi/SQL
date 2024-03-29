@@ -1,3 +1,5 @@
+# In this project, I analyze Fortune 500 Companies and their revenues, company size, benefits, and more!
+
 #Categorize companies by amount of employees
 SELECT COUNT(*),
 CASE WHEN employees>=1000000 THEN "Very Large Company"
