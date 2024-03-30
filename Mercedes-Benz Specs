@@ -48,3 +48,63 @@ from Mercedes
 where power > 
 	(select avg(power) from Mercedes)
     order by power desc;
+
+/*What is the average hp of the AMG models in the database?*/
+select avg(power)
+from (select model, power 
+from Mercedes 
+where model like '%AMG%');
+
+select avg(power) 
+from Mercedes 
+where model like '%AMG%';
+
+/*How much does the most expensive car with 4MATIC cost?*?
+select max(price)
+from (select model, price 
+from Mercedes 
+where model like '%4MATIC%');
+
+select max(price) 
+from Mercedes 
+where model like '%4MATIC%';
+
+select model, power, acceleration_ms
+from Mercedes
+where power>= 400
+and year=2024
+and acceleration_ms <=5000;
+
+select model, price, towing, mpghwy
+from Mercedes
+where towing is not null;
+
+select model, mpghwy
+from Mercedes
+group by mpghwy
+having mpghwy >30;
+
+with GLBprice as
+(select model, price as GLBp
+from Mercedes
+where model like '%GLB%')
+
+select * from mercedes where price > (select MAX(GLBp) from GLBprice);
+
+with GLBprice as
+(select model, price as GLBp
+from Mercedes
+where model like '%GLB%')
+
+select avg(GLBp) from GLBprice;
+
+select model, power, acceleration_ms, price
+from mercedes 
+where price >100000
+order by price desc;
+
+select model, mpghwy
+from mercedes
+order by mpghwy desc
+limit 5;
+
