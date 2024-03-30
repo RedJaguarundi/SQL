@@ -69,21 +69,27 @@ select max(price)
 from Mercedes 
 where model like '%4MATIC%';
 
+/*A customer wants a 2024 model with at least 400 hp and accelerates 0-60 in 5 seconds or less,
+show the cars the would be interested in*/
 select model, power, acceleration_ms
 from Mercedes
 where power>= 400
 and year=2024
 and acceleration_ms <=5000;
 
+/*A customer wants to see the towing capacity, price and highway mpg of cars that 
+would be suitable for towing*/
 select model, price, towing, mpghwy
 from Mercedes
 where towing is not null;
 
+/*A customer is not concerned about cost, but wants a car that gets good gas milage of at least 30 mpg on the highway*/
 select model, mpghwy
 from Mercedes
 group by mpghwy
 having mpghwy >30;
 
+/*Show all cars in the database that are more expensive than all the GLB models you have*/
 with GLBprice as
 (select model, price as GLBp
 from Mercedes
@@ -91,6 +97,7 @@ where model like '%GLB%')
 
 select * from mercedes where price > (select MAX(GLBp) from GLBprice);
 
+/* Show the average price of a GLB class*/
 with GLBprice as
 (select model, price as GLBp
 from Mercedes
@@ -98,11 +105,23 @@ where model like '%GLB%')
 
 select avg(GLBp) from GLBprice;
 
+/*Your customer wants a car that costs over 100k and wants to see hp and 0-60 acceleration of the cars
+that fit the description listed with the most expensive one first*?/
 select model, power, acceleration_ms, price
 from mercedes 
 where price >100000
 order by price desc;
 
+/*Put the vehicles into categories by price range*/
+select model, price, 
+CASE WHEN price >100000 THEN "High End"
+	WHEN price >45000 THEN "Mid Range"
+    ELSE "Entry Level"
+    END AS "Price Range"
+   FROM Mercedes
+   ORDER BY price asc;
+
+/*Show the 5 most fuel efficent cars*/
 select model, mpghwy
 from mercedes
 order by mpghwy desc
