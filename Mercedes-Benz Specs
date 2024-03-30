@@ -1,0 +1,50 @@
+
+# For this project, I created a table using actual data from the Mercedes-Benz website on select models. I used SQL to compare and contrast model specs and recommend certain models to different customers
+
+CREATE TABLE Mercedes (id INTEGER PRIMARY KEY, model TEXT, year INTEGER, price INTEGER, mpghwy INTEGER, acceleration_ms INTEGER, power INTEGER, towing INTEGER);
+
+INSERT INTO Mercedes VALUES ( 1, "AMG G 63", 2023, 179000, 16, 4500, 577, 7000);
+INSERT INTO Mercedes VALUES ( 2, "G 500", 2024, 143000, 16, 5600, 416, 7000);
+INSERT INTO Mercedes VALUES ( 3, "AMG GLS 63", 2024, 145850, 18, 4100, 603, 7700);
+INSERT INTO Mercedes VALUES ( 4, "Maybach EQS 680", 2024, 179900, null, 4100, 649, 3500);
+INSERT INTO Mercedes VALUES ( 5, "GLA 250", 2024, 41850, 34, 6800, 221, null);
+INSERT INTO Mercedes VALUES ( 6, "GLB 250", 2024, 41850, 33, 6900, 221, null);
+INSERT INTO Mercedes VALUES ( 7, "AMG GLA 35", 2024, 56450, 28, 5100, 302, null);
+INSERT INTO Mercedes VALUES ( 8, "GLA 250 4MATIC", 2024, 43850, 32, 6600, 221, null);
+INSERT INTO Mercedes VALUES ( 9, "AMG GLB 35", 2024, 59050, 26, 5400, 302, null);
+INSERT INTO Mercedes VALUES ( 10, "GLB 250", 2024, 44450, 33, 6900, 221, null);
+INSERT INTO Mercedes VALUES ( 11, "GLB 250 4MATIC", 2024, 46450, 24, 6900, 221, null);
+INSERT INTO Mercedes VALUES ( 12, "GLC 300 4MATIC", 2024, 49100, 31, 6200, 255, 3500);
+INSERT INTO Mercedes VALUES ( 13, "GLC 300", 2024, 47100, 34, 6200, 255, 3500);
+
+/*Find the average horsepower of the GLA, GLB and GLC SUVs*/
+with GLA as
+	(select * from Mercedes 
+     where model like '%GLA%')
+     
+  select avg(power) from GLA;
+
+with GLB as
+	(select * from Mercedes 
+     where model like '%GLB%')
+     
+  select avg(power) from GLB;
+  
+ with GLC as
+	(select * from Mercedes 
+     where model like '%GLC%')
+     
+  select avg(power) from GLC;
+
+/*How many models in the database have a horsepower rating that is greater than the average hp for the whole database?*/
+select COUNT(*)
+from Mercedes 
+where power > 
+	(select avg(power) from Mercedes);
+
+/*Display these models along with their hp, showing the highest hp first*/
+select model, power
+from Mercedes 
+where power > 
+	(select avg(power) from Mercedes)
+    order by power desc;
