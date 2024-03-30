@@ -61,13 +61,14 @@ VALUES
 
 
 
-
-
-
 /*How many movie titles are there in the database?*/
 SELECT COUNT(*)
 FROM netflix_titles_info
 WHERE type='Movie';
+
+/*Are there any movies that are available in Burkina Faso?*/
+select * from netflix_titles_info
+where country like '%Burkina%'
 
 
 /*When was the most recent batch of tv shows and/or movies added to the database?*/
@@ -107,3 +108,9 @@ WHERE release_year =(SELECT MIN(release_year)
                       FROM netflix_titles_info 
                       WHERE type = 'Movie')
 AND type='Movie';
+
+/*Show the title and type of any show or movie that Melissa McCarthy is in*/
+select title, type from netflix_people np
+join netflix_titles_info nt
+on np.show_id=nt.show_id
+where np.cast like '%Melissa McCarthy%'
