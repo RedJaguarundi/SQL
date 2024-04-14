@@ -104,6 +104,36 @@ where emp.title = 'Sales Support Agent'
 group by emp.employeeid
 ;
 
+--Which sales agent made the most dollars in sales in 2009? 
+-- 2 ways- using a CTE and then using a JOIN 
+
+with empsalesCTE as
+(select emp.firstname as FirstName, emp.lastname as LastName, ROUND(SUM(Inv.Total), 2) as total_sales
+from employees emp
+join customers cust
+on emp.employeeid=cust.supportrepid
+join invoices inv
+on cust.customerid=inv.customerid
+where emp.title = 'Sales Support Agent'
+and inv.invoicedate like "2009%"
+group by emp.employeeid)
+
+select FirstName, LastName, max(total_sales)
+from empsalesCTE
+;
+
+select emp.firstname, emp.lastname
+, ROUND(SUM(Inv.Total), 2) as "Total Sales"
+from employees emp
+join customers cust 
+on cust.supportrepid=emp.employeeid
+join invoices inv 
+on inv.customerid=cust.customerid
+where emp.title = "Sales Support Agent"
+and inv.invoicedate like "2009%"
+group by emp.firstname
+order by "Total Sales" desc limit 1
+
 
 
 
