@@ -54,3 +54,61 @@ on inv.customerid= cust.customerid
 left join employees emp
 on cust.supportrepid=emp.employeeid
 order by c_last
+
+--How many Invoices were there in 2009?
+select count(*) 
+from invoices
+where invoicedate between "2009-01-01" and "2009-12-31";
+
+--What are the total sales for 2009?
+select SUM(total)
+from invoices
+where invoicedate between "2009-01-01" and "2009-12-31";
+
+--Write a query that includes the purchased track name with each invoice line ID.
+select tracks.name, ii.invoicelineid
+from tracks
+join invoice_items ii
+on tracks.trackid=ii.trackid
+order by ii.invoicelineid asc
+
+--Write a query that includes the purchased track name AND artist name with each invoice line ID
+select t.name as track_name, a.name as album_name, ii.invoicelineid
+from invoice_items ii
+join tracks t
+on t.trackid=ii.trackid
+join albums alb
+on t.albumid=alb.albumid
+join artists a
+on a.artistid=alb.artistid
+
+--Provide a query that shows all the Tracks, and include the Album name, Media type, and Genre, and sort by album name
+select t.name as track_name, a.title as album_title, mt.name as media_type_name, g.name as genre_name
+from albums a
+join tracks t
+on a.albumid=t.albumid
+join media_types mt
+on t.mediatypeid=mt.mediatypeid
+join genres g
+on t.genreid=g.genreid 
+order by a.title
+
+----Show the total sales made by each sales agent
+select emp.firstname, emp.lastname, ROUND(SUM(Inv.Total), 2) as total_sales
+from employees emp
+join chinook.customers cust
+on emp.employeeid=cust.supportrepid
+join invoices inv
+on cust.customerid=inv.customerid
+where emp.title = 'Sales Support Agent'
+group by emp.employeeid
+;
+
+
+
+
+
+
+
+
+
