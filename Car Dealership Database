@@ -113,8 +113,9 @@ select model, price as original_price, price*.8 as markdown_price
 from cars
 where make = "Chevrolet"
 
---You are going to bring some cars to the site of a classic car show and hopefully sell some of them. The cutoff year is now 2005! But since 
-there is limited space and you want to make a good profit, you only want to bring cars priced over 15,000. Select the "old" cars in this range.
+--You are going to bring some cars to the site of a classic car show and hopefully sell some of them. The cutoff year to be considered a "classic" 
+is now 2005! But since there is limited space and you want to make a good profit, you only want to bring cars priced over 15,000. 
+Select the "old" cars in this range.
 with old_cars as
 	(select make, model, year, price
      from cars
