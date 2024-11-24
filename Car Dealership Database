@@ -108,7 +108,7 @@ CASE WHEN price <=6000 THEN "Super Sweet Steal of a Deal"
 select SUM(price)
 from cars;
 
---You are having a sale on Chevys only for 20% their original price. Show the model, original price, and markdown price.
+--You are having a sale on Chevys only for 20% off their original price. Show the model, original price, and markdown price.
 select model, price as original_price, price*.8 as markdown_price
 from cars
 where make = "Chevrolet"
